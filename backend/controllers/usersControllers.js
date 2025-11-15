@@ -23,12 +23,14 @@ const login = asyncHandler( async(req,res) => {
 const register = asyncHandler(async(req,res) => {
     //desestructuramos el body
     const {nombre, email, password} = req.body
-    //verificamos que nos pasen todos los camps
-    if (!nombre || !email || !password){
+    
+    //verificamos que nos pasen todos los campos
+    if (!nombre || !email || !password) {
         res.status(400)
         throw new Error('Faltan datos')
     }
-    //verificamos que ese usario no existe y si no existe guardarlo
+
+    //verificamos que ese usuario no exista y si no existe guardamos
     const userExists = await User.findOne({email})
     if (userExists){
         res.status(400)
@@ -45,17 +47,17 @@ const register = asyncHandler(async(req,res) => {
             password: passwordHashed
         })
 
-        //si el usuario se creó correctamente lo muestro
-        if(user){
+        //si el usuario se creo correctamente lo muestro
+        if (user) {
             res.status(201).json({
                 _id: user.id,
                 nombre: user.nombre,
                 email: user.email,
                 password: user.password
             })
-        } else{
+        } else {
             res.status(400)
-            throw new Error('No se pudieron guardar los datos')
+            throw new Error ('No se pudieron guardar los datos')
         }
     }
 })
